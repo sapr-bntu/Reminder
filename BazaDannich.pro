@@ -1,12 +1,12 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2011-09-20T15:26:48
+# Project created by QtCreator 2011-10-25T15:11:09
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
-TARGET = Planirov
+TARGET = BazaDannich
 TEMPLATE = app
 
 
