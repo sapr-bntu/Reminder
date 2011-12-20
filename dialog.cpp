@@ -2,11 +2,13 @@
 #include "ui_dialog.h"
 #include <QtGui>
 #include <QtSql>
+#include <QRadioButton>
 
 Dialog::Dialog(QWidget *parent) :
         QDialog(parent),
         ui(new Ui::Dialog)
 {
+
 
     ui->setupUi(this);
     ui->groupBox->hide();
@@ -42,9 +44,20 @@ Dialog::Dialog(QWidget *parent) :
     ui->tableView1->setModel(model);
     //     ui->tableView1->hideColumn(0);
     //ui->tableView1->hideColumn(1);
+
+    QDateTime  finishTime = QDateTime::currentDateTime();
+
+    ui->timeEdit->setTime(QTime(finishTime.time().hour(), 0 ));
+    ui->timeEdit_2->setTime(QTime(finishTime.time().hour(), 0 ));
+    QDateTime dateTime=QDateTime::currentDateTime();
+    ui-> dateEdit->setDate(dateTime.date());
+    ui->dateEdit->setDate(dateTime.date());
     connect(ui->tableView1,SIGNAL(clicked(QModelIndex)),this,SLOT(on_cliked(QModelIndex)));
-    connect(ui->pushButton_2,SIGNAL(clicked()), this,SLOT(delete1()));
-     // connect(ui->pushButton,SIGNAL(clicked()),this, SLOT(on_pushButton_clicked()));
+
+   connect(ui->pushButton_2,SIGNAL(clicked()),this,SLOT(delete1()));
+  connect(ui->radioButton,SIGNAL(clicked()),this,SLOT(plu()));
+
+   // connect(ui->pushButton,SIGNAL(clicked()),this, SLOT(on_pushButton_clicked()));
 
 }
 
@@ -81,6 +94,7 @@ void Dialog::on_pushButton_clicked()
     time = ui->timeEdit->time();
     QTime time1;
     time1 = ui->timeEdit_2->time();
+
     QString t=time.toString();
     QString t2=time1.toString();
     QDate date;
@@ -88,11 +102,90 @@ void Dialog::on_pushButton_clicked()
     QString d=date.toString("yyyy-MM-dd");
     qDebug()<<d;
     QSqlQuery query;
+
    // qDebug()<<"date"<<date.toString();
 
-    query.exec("INSERT INTO Dannie ( Data, Vremyanachala, Vremyakonca, Sobitie, comment)  VALUES('"+d+"','"+t+"','"+t2+"','"+text+"','"+comment+"')");
+
+   query.exec("INSERT INTO Dannie ( Data, Vremyanachala, Vremyakonca, Sobitie, comment)  VALUES('"+d+"','"+t+"','"+t2+"','"+text+"','"+comment+"')");
 
     model->select();
+    if(ui->radioButton->isChecked())
+    {
+        QDate dat1 = ui->calendarWidget->selectedDate();
+        QDate dat2 = ui->dateEdit->date();
+
+        while (dat2 > dat1)
+        {
+            QString text;
+
+            text = ui->textEdit->toPlainText();
+            QString comment;
+            comment = ui->textEdit_2->toPlainText();
+            QTime time;
+            time = ui->timeEdit->time();
+            QTime time1;
+            time1 = ui->timeEdit_2->time();
+            QString t=time.toString();
+            QString t2=time1.toString();
+         dat1 = dat1.addDays(1);
+         QString dat3 = dat1.toString("yyyy-MM-dd");
+            qDebug()<<dat3;
+          QSqlQuery query;
+         query.exec("INSERT INTO Dannie ( Data, Vremyanachala, Vremyakonca, Sobitie, comment)  VALUES('"+dat3+"','"+t+"','"+t2+"','"+text+"','"+comment+"')");
+     model->select();
+     }
+    }
+    if(ui->radioButton_2->isChecked())
+    {
+        QDate dat1 = ui->calendarWidget->selectedDate();
+        QDate dat2 = ui->dateEdit->date();
+        while (dat2 > dat1)
+        {
+            QString text;
+
+            text = ui->textEdit->toPlainText();
+            QString comment;
+            comment = ui->textEdit_2->toPlainText();
+            QTime time;
+            time = ui->timeEdit->time();
+            QTime time1;
+            time1 = ui->timeEdit_2->time();
+            QString t=time.toString();
+            QString t2=time1.toString();
+         dat1 = dat1.addDays(7);
+         QString dat3 = dat1.toString("yyyy-MM-dd");
+            qDebug()<<dat3;
+          QSqlQuery query;
+         query.exec("INSERT INTO Dannie ( Data, Vremyanachala, Vremyakonca, Sobitie, comment)  VALUES('"+dat3+"','"+t+"','"+t2+"','"+text+"','"+comment+"')");
+     model->select();
+     }
+    }
+    if(ui->radioButton_3->isChecked())
+    {
+        QDate dat1 = ui->calendarWidget->selectedDate();
+        QDate dat2 = ui->dateEdit->date();
+        while (dat1 < dat2)
+        {
+            QString text;
+
+            text = ui->textEdit->toPlainText();
+            QString comment;
+            comment = ui->textEdit_2->toPlainText();
+            QTime time;
+            time = ui->timeEdit->time();
+            QTime time1;
+            time1 = ui->timeEdit_2->time();
+            QString t=time.toString();
+            QString t2=time1.toString();
+         dat1 = dat1.addMonths(1);
+         QString dat3 = dat1.toString("yyyy-MM-dd");
+            qDebug()<<dat3;
+          QSqlQuery query;
+         query.exec("INSERT INTO Dannie ( Data, Vremyanachala, Vremyakonca, Sobitie, comment)  VALUES('"+dat3+"','"+t+"','"+t2+"','"+text+"','"+comment+"')");
+     model->select();
+     }
+    }
+
 }
 
 void Dialog::delete1()
@@ -121,5 +214,13 @@ void Dialog::on_checkBox_stateChanged(int arg1)
     else
     {
         ui->groupBox->show();
+
     }
 }
+
+
+
+
+
+
+

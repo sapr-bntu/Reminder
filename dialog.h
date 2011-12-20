@@ -26,13 +26,19 @@ private:
     int id;
 
 private slots:
- //void on_tableView1_clicked(QModelIndex index);
+
+
+
     void on_calendarWidget_clicked(QDate date);
     void on_cliked (QModelIndex index );
     void on_pushButton_clicked();
-    //   void on_pushButton2_clicked();
+
       void delete1();
       void on_checkBox_stateChanged(int arg1);
+
+
+
+
 };
 
 #endif // DIALOG_H
