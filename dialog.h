@@ -19,22 +19,27 @@ public:
     QModelIndex index;
        int curentIndex;
 
-private:
+public:
     Ui::Dialog *ui;
     QSqlTableModel *model;
     int currentid;
     int id;
 
-private slots:
+public slots:
 
 
 
-    void on_calendarWidget_clicked(QDate date);
-    void on_cliked (QModelIndex index );
-    void on_pushButton_clicked();
-
-      void delete1();
-      void on_checkBox_stateChanged(int arg1);
+    bool on_calendarWidget_clicked(QDate date);
+    bool on_cliked (QModelIndex index );
+    bool on_pushButton_clicked();
+    bool reader();
+    bool INSERT();
+    bool DB_create();
+    bool table_create();
+    bool every_day();
+    bool every_week();
+    bool delete1();
+    bool on_checkBox_stateChanged(int arg1);
 
 
 
